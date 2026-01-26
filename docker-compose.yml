@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    container_name: keepserverbridge
+    volumes:
+      # Mount certs directory to persist certificates
+      - ./certs:/app/certs
+    network_mode: host  # Use host network to connect to localhost KepServer
+    # Override entrypoint to allow custom commands
+    entrypoint: ["/entrypoint.sh"]
+    # Default command
+    command: ["help"]
+
