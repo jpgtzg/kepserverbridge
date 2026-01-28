@@ -1,0 +1,14 @@
+version: "3.9"
+
+services:
+  kepserverbridge:
+    image: kepserverbridge
+    container_name: kepserverbridge
+    network_mode: host
+    restart: unless-stopped
+
+    volumes:
+      - kepserverbridge-certs:/app/certs
+
+volumes:
+  kepserverbridge-certs:
