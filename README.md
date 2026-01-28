@@ -1,75 +1,74 @@
 # KepServer Bridge
 
-OPC UA client for connecting to KepServer with certificate-based security.
+Dockerized OPC UA client that connects securely to KepServerEX using
+certificate-based security and username/password authentication.
+
+The container automatically generates and persists OPC UA client certificates and is designed to be built locally and run on a remote (even offline) machine.
 
 ## Docker Setup
 
 ### Prerequisites
-- Docker and Docker Compose installed
+- Docker installed
 
-### Building the Container
+## Build the Image (Development Machine)
 
-```bash
-docker-compose build
-```
-
-### Usage
-
-#### Step 1: Generate Certificate
-
-First, generate the OPC UA client certificate:
+From the project root:
 
 ```bash
-docker-compose run app cert
+docker build -t kepserverbridge .
 ```
 
-This will create the certificate files in the `certs/` directory:
-- `certs/client_cert.pem`
-- `certs/client_key.pem`
+## Export the Image for a Remote Machine
 
-#### Step 2: Connect Client
+Save the built image to a .tar file:
 
-After generating the certificate, connect to the KepServer:
+This can be done running the following script:
 
 ```bash
-docker-compose run app client
+./generate_tar.sh
 ```
 
-The client will automatically generate a certificate if one doesn't exist.
-
-### Alternative: Direct Python Execution
-
-You can also run Python scripts directly in the container:
+Or manually:
 
 ```bash
-# Generate certificate
-docker-compose run app python cert.py
-
-# Connect client
-docker-compose run app python test_client.py
+docker build -t kepserverbridge .
+docker save kepserverbridge:latest -o kepserverbridge.tar
 ```
 
-### Network Configuration
+## Import the Image on a Remote Machine
 
-The container uses `host` network mode to connect to `localhost:4840`. If your KepServer is running on a different host, you may need to:
+Transfer the following files to the remote machine:
+- ```kepserverbridge.tar```
+- ```docker-compose.yml```
 
-1. Update `test_client.py` with the correct server URL
-2. Change `network_mode: host` in `docker-compose.yml` to a bridge network if needed
 
-## Local Development
+## Load and Run the Container on a Remote Machine
 
-If you prefer to run locally without Docker:
+From the remote machine, load the image from the tar file:
 
 ```bash
-# Install dependencies (using uv or pip)
-uv sync
-# or
-pip install -r pyproject.toml
-
-# Generate certificate
-python cert.py
-
-# Connect client
-python test_client.py
+docker load -i kepserverbridge.tar
 ```
 
+Then run the container with docker compose:
+
+```bash
+docker compose up
+```
+
+The docker compose file will mount the certs volume to the container, so you don't need to generate the certificates again.
+It iwll generate the certificates if they don't exist.
+
+## Certificates and First Run Behavior
+
+- Client certificates are stored in a named Docker volume
+- On first startup, the container:
+    - Automatically generates a client certificate if none exists
+    - Reuses the same certificate on subsequent runs and restarts
+- On first connection, KepServerEX will reject the client certificate
+
+## KepServerEX (one-time step)
+
+- Open OPC UA Configuration on the KepServerEX machine
+- Set the client certificate to Trusted
+- Retry the connection to KepServerEX
