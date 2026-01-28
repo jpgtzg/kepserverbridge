@@ -16,10 +16,10 @@ Create a `.env` file in the project root with the following variables:
 
 ```env
 # OPC UA Server Connection
-SERVER_URL=opc.tcp://192.168.1.160:49320
+SERVER_URL=opc.tcp://192.168.1.100:49320
 
 # Application URI (must match in both cert.py and client.py)
-APP_URI=urn:usprmsmovmp01:keepserverbridge
+APP_URI=urn:usermachine01:kepserverbridge
 
 # Host name for certificate generation
 HOST_NAME=localhost
