@@ -5,14 +5,14 @@ ENV PYTHONUNBUFFERED=1 \
 
 WORKDIR /app
 
-# Install runtime dependencies
 RUN pip install --upgrade pip && \
-    pip install asyncua
+    pip install uv
 
-# Copy application code
+COPY pyproject.toml uv.lock /app/
+RUN uv sync --frozen
+
 COPY . /app
 
-# Ensure certificates directory exists at runtime and run client
-CMD ["bash", "-c", "mkdir -p certs && python cert.py && python client.py"]
+VOLUME ["/app/certs"]
 
-
+ENTRYPOINT ["/app/entrypoint.sh"]
