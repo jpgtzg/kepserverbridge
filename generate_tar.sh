@@ -1,4 +1,5 @@
 #!/bin/bash
 
 docker build -t kepserverbridge .
-docker save kepserverbridge -o kepserverbridge.tar
+
+docker save kepserverbridge:latest -o kepserverbridge.tar
