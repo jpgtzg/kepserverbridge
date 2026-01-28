@@ -10,6 +10,30 @@ The container automatically generates and persists OPC UA client certificates an
 ### Prerequisites
 - Docker installed
 
+## Environment Configuration
+
+Create a `.env` file in the project root with the following variables:
+
+```env
+# OPC UA Server Connection
+SERVER_URL=opc.tcp://192.168.1.160:49320
+
+# Application URI (must match in both cert.py and client.py)
+APP_URI=urn:usprmsmovmp01:keepserverbridge
+
+# Host name for certificate generation
+HOST_NAME=localhost
+
+# KepServer Authentication Credentials
+CLIENT_USERNAME=admin
+CLIENT_PASSWORD=your_password_here
+```
+
+**Important Notes:**
+- `APP_URI` must be the same value used in both certificate generation and client connection
+- `SERVER_URL` should point to your KepServer OPC UA endpoint
+- `HOST_NAME` is used for certificate Subject Alternative Names (SANs)
+
 ## Build the Image (Development Machine)
 
 From the project root:
