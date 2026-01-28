@@ -6,9 +6,12 @@ services:
     container_name: kepserverbridge
     network_mode: host
     restart: unless-stopped
+    stdin_open: true
+    tty: true
 
     volumes:
       - kepserverbridge-certs:/app/certs
 
 volumes:
   kepserverbridge-certs:
+
