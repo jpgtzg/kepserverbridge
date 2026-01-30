@@ -81,7 +81,7 @@ docker compose run --rm kepserverbridge
 ```
 
 The docker compose file will mount the certs volume to the container, so you don't need to generate the certificates again.
-It iwll generate the certificates if they don't exist.
+It will generate the certificates if they don't exist.
 
 ## Certificates and First Run Behavior
 

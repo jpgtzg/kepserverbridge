@@ -4,7 +4,6 @@ from asyncua.crypto.security_policies import SecurityPolicyBasic256Sha256
 from dotenv import load_dotenv
 import os
 import asyncio
-from typing import Any, Awaitable, Callable, Optional
 
 load_dotenv()
 
