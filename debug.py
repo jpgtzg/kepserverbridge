@@ -5,11 +5,8 @@ Helper script to dump the details of an OPC UA node.
 """
 
 from asyncua.common.node import Node
-from asyncua import Client, ua
-from asyncua.crypto.security_policies import SecurityPolicyBasic256Sha256
+from asyncua import ua
 from dotenv import load_dotenv
-import os
-import asyncio
 from typing import Any, Awaitable, Callable, Optional
 
 load_dotenv()
