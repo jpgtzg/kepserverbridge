@@ -77,7 +77,7 @@ docker load -i kepserverbridge.tar
 Then run the container with docker compose:
 
 ```bash
-docker compose up
+docker compose run --rm kepserverbridge
 ```
 
 The docker compose file will mount the certs volume to the container, so you don't need to generate the certificates again.
